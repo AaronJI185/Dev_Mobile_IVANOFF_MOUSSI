@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Modal, Pressable } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView, Modal, Pressable, Alert } from 'react-native';
 import FoodItem from './FoodItem';
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
 
 const FoodDatabaseScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,6 +19,9 @@ const FoodDatabaseScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedMeal, setSelectedMeal] = useState('Breakfast');
+  const [exportDay, setExportDay] = useState('');
+
+  const navigation = useNavigation();
 
   const handleSearch = async () => {
     if (searchQuery === '') {
@@ -69,6 +73,31 @@ const FoodDatabaseScreen = () => {
   const handleCancelAdd = () => {
     setModalVisible(false);
   };
+
+  const handleExport = () => {
+    setExportDay('');
+    Alert.alert('Export Meal Plan', 'Choose a day of the week to export to:', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Sunday', onPress: () => handleExportDay('Sunday') },
+      { text: 'Monday', onPress: () => handleExportDay('Monday') },
+      { text: 'Tuesday', onPress: () => handleExportDay('Tuesday') },
+      { text: 'Wednesday', onPress: () => handleExportDay('Wednesday') },
+      { text: 'Thursday', onPress: () => handleExportDay('Thursday') },
+      { text: 'Friday', onPress: () => handleExportDay('Friday') },
+      { text: 'Saturday', onPress: () => handleExportDay('Saturday') },
+    ]);
+  };
+
+  const handleExportDay = (day) => {
+  const exportedMealPlan = {
+    Day: { ...mealPlan.Day },
+    exportDay: day,
+  };
+
+  navigation.navigate('MealPlanningScreen', {
+    exportedMealPlan,
+  });
+};
 
   return (
     <View style={styles.container}>
@@ -139,6 +168,11 @@ const FoodDatabaseScreen = () => {
         </ScrollView>
       </View>
 
+      <View style={styles.exportButtonContainer}>
+        <Button title="Export Meal Plan" onPress={handleExport} />
+        {exportDay !== '' && <Text>Exporting to: {exportDay}</Text>}
+      </View>
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -167,8 +201,8 @@ const FoodDatabaseScreen = () => {
             >
               <Picker.Item label="Breakfast" value="Breakfast" />
               <Picker.Item label="Lunch" value="Lunch" />
-              <Picker.Item label="Dinner" value="Dinner" />
               <Picker.Item label="Snack" value="Snack" />
+              <Picker.Item label="Dinner" value="Dinner" />
             </Picker>
           </View>
         </View>
@@ -180,21 +214,18 @@ const FoodDatabaseScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    padding: 10,
   },
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   searchInput: {
     flex: 1,
     marginRight: 10,
-    padding: 10,
-    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
+    padding: 5,
   },
   contentContainer: {
     flex: 1,
@@ -202,14 +233,12 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     flex: 1,
-    marginRight: 10,
   },
   selectedFoodContainer: {
-    marginBottom: 20,
-    padding: 10,
+    marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 5,
+    padding: 10,
   },
   selectedFoodTitle: {
     fontSize: 16,
@@ -217,17 +246,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   selectedFoodName: {
+    fontSize: 14,
     marginBottom: 5,
   },
   selectedFoodCalories: {
-    marginBottom: 10,
+    fontSize: 12,
   },
   resultContainer: {
-    maxHeight: '70%',
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
+    flex: 1,
   },
   resultTitle: {
     fontSize: 16,
@@ -235,53 +264,59 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   mealPlanContainer: {
-    flex: 1,
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
+    flex: 1,
+    marginLeft: 10,
   },
   mealPlanTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   mealContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   mealTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   mealItemContainer: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
     marginBottom: 5,
   },
   mealItemName: {
-    marginBottom: 2,
+    fontSize: 12,
+    marginBottom: 3,
   },
   mealItemCalories: {
-    color: 'gray',
-    marginBottom: 10,
+    fontSize: 10,
   },
   noMealItemsText: {
-    color: 'gray',
     fontStyle: 'italic',
+    fontSize: 12,
+  },
+  exportButtonContainer: {
+    marginTop: 10,
+    alignItems: 'center',
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 5,
+    backgroundColor: 'white',
     padding: 20,
-    width: '80%',
+    borderRadius: 10,
+    elevation: 5,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -291,20 +326,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modalLabel: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 5,
   },
   modalInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 5,
-    marginBottom: 10,
     padding: 5,
+    marginBottom: 10,
   },
   modalPicker: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    marginBottom: 10,
   },
 });
 
