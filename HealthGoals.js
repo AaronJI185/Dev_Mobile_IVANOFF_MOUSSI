@@ -193,11 +193,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
     width: 250,
     height: 100,
-    borderRadius: 5,
-    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#5cb6f2',
   },
   ResultValue: {
     fontSize: 20,
