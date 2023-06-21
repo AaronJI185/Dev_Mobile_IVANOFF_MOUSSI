@@ -24,8 +24,8 @@ const FoodDatabaseScreen = () => {
   const navigation = useNavigation();
 
   const handleSearch = async () => {
-    if (searchQuery === '') {
-      setFoodData(null);
+    if(!searchQuery || searchQuery === ''){
+      Alert.alert("Validation Error", "An error has occured. Please restart");
       return;
     }
 
@@ -74,18 +74,34 @@ const FoodDatabaseScreen = () => {
     setModalVisible(false);
   };
 
+  const dropdownValues = [
+    { text: 'Cancel', style: 'cancel' },
+    { text: 'Sunday', onPress: () => handleExportDay('Sunday') },
+    { text: 'Monday', onPress: () => handleExportDay('Monday') },
+    { text: 'Tuesday', onPress: () => handleExportDay('Tuesday') },
+    { text: 'Wednesday', onPress: () => handleExportDay('Wednesday') },
+    { text: 'Thursday', onPress: () => handleExportDay('Thursday') },
+    { text: 'Friday', onPress: () => handleExportDay('Friday') },
+    { text: 'Saturday', onPress: () => handleExportDay('Saturday') },
+  ];
+
+  const [selectedDay, setSelectedDay] = useState('');
+
   const handleExport = () => {
     setExportDay('');
-    Alert.alert('Export Meal Plan', 'Choose a day of the week to export to:', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Sunday', onPress: () => handleExportDay('Sunday') },
-      { text: 'Monday', onPress: () => handleExportDay('Monday') },
-      { text: 'Tuesday', onPress: () => handleExportDay('Tuesday') },
-      { text: 'Wednesday', onPress: () => handleExportDay('Wednesday') },
-      { text: 'Thursday', onPress: () => handleExportDay('Thursday') },
-      { text: 'Friday', onPress: () => handleExportDay('Friday') },
-      { text: 'Saturday', onPress: () => handleExportDay('Saturday') },
-    ]);
+    Alert.alert('Export Meal Plan', 'Choose a day of the week to export to:',
+    
+    <Picker
+      selectedValue={selectedDay}
+      onValueChange={(itemValue) => setSelectedDay(itemValue)}
+    >
+      {dropdownValues.map((option, index) => (
+        <Picker.Item key={index} label={option.label} value={option.value} />
+      ))}
+    </Picker>,
+      [{ text: 'OK' }]
+
+    );
   };
 
   const handleExportDay = (day) => {

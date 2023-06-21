@@ -89,38 +89,44 @@ const HealthGoalsScreen = () => {
         <Text style={styles.InputName}>Weight </Text>
         <TextInput style={styles.input} onChangeText={handleWeightChange} keyboardType="decimal-pad" />
         <Text style={styles.InputName}>Gender </Text>
-        <SelectDropdown
-          data={genderArray}
-          onSelect={(selectedItem) => {
-            handleGenderChange(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          buttonStyle={styles.inputPicker}
-        />
+        <View style={styles.input}>
+          <SelectDropdown
+            data={genderArray}
+            onSelect={(selectedItem) => {
+              handleGenderChange(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem) => {
+              return selectedItem;
+            }}
+          />
+        </View>
+
         <Text style={styles.InputName}>Health goal </Text>
-        <SelectDropdown
-          data={healthGoalArray}
-          onSelect={(selectedItem) => {
-            handleHealthGoalChange(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          buttonStyle={styles.inputPicker}
-        />
+        <View style={styles.input}>
+          <SelectDropdown
+              data={healthGoalArray}
+              onSelect={(selectedItem) => {
+                handleHealthGoalChange(selectedItem);
+              }}
+              buttonTextAfterSelection={(selectedItem) => {
+                return selectedItem;
+              }}
+          />
+        </View>
+          
         <Text style={styles.InputName}>Activity level</Text>
-        <SelectDropdown
-          data={activityLevelArray}
-          onSelect={(selectedItem) => {
-            handleActivityLevelChange(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => {
-            return selectedItem;
-          }}
-          buttonStyle={styles.inputPicker}
-        />
+        <View style={styles.input}>
+          <SelectDropdown
+            data={activityLevelArray}
+            onSelect={(selectedItem) => {
+              handleActivityLevelChange(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem) => {
+              return selectedItem;
+            }}
+          />
+        </View>
+        
       </View>
       <View style={styles.form}>
         <Pressable style={styles.button} onPress={handleCalculate}>
@@ -144,9 +150,8 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 200,
-    height: 40,
     borderWidth: 1,
-    borderColor: 'red',
+    borderColor: '#5cb6f2',
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
@@ -154,7 +159,7 @@ const styles = StyleSheet.create({
   inputPicker: {
     width: 200,
     height: 50,
-    borderColor: 'red',
+    borderColor: '#5cb6f2',
     marginBottom: 100,
   },
   button: {
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    backgroundColor: 'red',
+    backgroundColor: '#5cb6f2',
   },
   ButtonText: {
     fontSize: 16,
@@ -173,9 +178,11 @@ const styles = StyleSheet.create({
   },
   form: {
     paddingTop: 30,
+    alignItems: 'center',
   },
   InputName: {
-    backgroundColor: 'red',
+    textAlign: 'center',
+    backgroundColor: '#5cb6f2',
     width: 100,
     borderRadius: 5,
     fontWeight: 'bold',
@@ -190,12 +197,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'red',
+    borderColor: '#5cb6f2',
   },
   ResultValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'red',
+    color: '#5cb6f2',
   }
 });
 

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   activeDayButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#5cb6f2',
   },
   dayButtonText: {
     fontSize: 16,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   activeDayContainer: {
     borderWidth: 2,
-    borderColor: 'red',
+    borderColor: '#5cb6f2',
     borderRadius: 8,
     padding: 8,
   },
